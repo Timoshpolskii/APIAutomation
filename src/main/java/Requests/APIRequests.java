@@ -14,17 +14,17 @@ public interface APIRequests {
 
     @Headers("screen_name: @andrewtechery")
     @POST("1.1/statuses/update.json")
-    Call<NewPost> updateStatus(@Query("status") String status);
+    Call<NewPost> createNewTweet(@Query("status") String status);
 
     //    TODO: change naming to replyToTweet etc
 
     @Headers("screen_name: @andrewtechery")
     @POST("1.1/statuses/update.json")
-    Call<NewPost> updateStatus(@Query("status") String status, @Query("in_reply_to_status_id") long id);
+    Call<NewPost> replyToTweet(@Query("status") String status, @Query("in_reply_to_status_id") long id);
 
     @Headers("screen_name: @andrewtechery")
     @POST("1.1/statuses/update.json")
-    Call<NewPost> updateStatus(@Query("status") String status, @Query("lat") double lat, @Query("long") double longitude);
+    Call<NewPost> createTweetWithLocation(@Query("status") String status, @Query("lat") double lat, @Query("long") double longitude);
 
     @Headers("screen_name: @andrewtechery")
     @GET("1.1/statuses/user_timeline.json")
