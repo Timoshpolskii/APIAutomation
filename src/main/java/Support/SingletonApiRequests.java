@@ -1,19 +1,20 @@
 package main.java.Support;
 
+import main.java.Requests.APIRequests;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import se.akerfeldt.okhttp.signpost.OkHttpOAuthConsumer;
 import se.akerfeldt.okhttp.signpost.SigningInterceptor;
 
-public class SingletonRetrofit {
+public class SingletonApiRequests {
 
     private static Retrofit retrofit = null;
 
-    private SingletonRetrofit() {
+    private SingletonApiRequests() {
     }
 
-    public static synchronized Retrofit getRetrofit() {
+    public static synchronized APIRequests getApiRequests() {
 
         if (retrofit == null) {
 
@@ -32,6 +33,6 @@ public class SingletonRetrofit {
                     .client(client)
                     .build();
         }
-        return retrofit;
+        return retrofit.create(APIRequests.class);
     }
 }
