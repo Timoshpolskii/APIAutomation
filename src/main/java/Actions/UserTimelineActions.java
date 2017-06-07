@@ -10,11 +10,9 @@ import static main.java.Support.SingletonApiRequests.getApiRequests;
 
 public class UserTimelineActions {
 
-//    TODO: compare this class with StatusUpdateActions
-    private Call<List<UserPosts>> call = getApiRequests().getTimeline();
-
     public List<UserPosts> getUserInfo() throws IOException {
 
+        Call<List<UserPosts>> call = getApiRequests().getTimeline();
         List<UserPosts> body = null;
         try {
             body = call.clone().execute().body();

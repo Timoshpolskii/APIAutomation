@@ -16,8 +16,6 @@ public interface APIRequests {
     @POST("1.1/statuses/update.json")
     Call<NewPost> createNewTweet(@Query("status") String status);
 
-    //    TODO: change naming to replyToTweet etc
-
     @Headers("screen_name: @andrewtechery")
     @POST("1.1/statuses/update.json")
     Call<NewPost> replyToTweet(@Query("status") String status, @Query("in_reply_to_status_id") long id);
