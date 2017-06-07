@@ -6,9 +6,6 @@ public class NewPost {
 
     private long id;
 
-//    TODO: add serialized names to objects
-//    TODO: remove all unused fields
-
     public long getId() {
         return id;
     }

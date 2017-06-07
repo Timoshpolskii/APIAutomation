@@ -16,7 +16,7 @@ public class StatusUpdateTests {
     UserTimelineActions userTimelineActions = new UserTimelineActions();
 
 //    TODO: check naming across project
-//    TODO: check all assertion namings
+
     @Test
     public void checkRussianLanguage() throws IOException {
         NewPost newPost = statusUpdateActions.postStatus("здорова");
@@ -39,8 +39,7 @@ public class StatusUpdateTests {
         List<UserPosts> userPosts = userTimelineActions.getUserInfo();
 
         String textFromResponse = userPosts.get(0).getText();
-        assertThat("Text from response differs from request. Your request: " + textFromRequest + ". Your response: " + textFromResponse,
-                textFromResponse, equalTo(textFromResponse));
+        assertThat("Text from response differs from request.", textFromResponse, equalTo(textFromResponse));
     }
 
     @Test
@@ -53,20 +52,20 @@ public class StatusUpdateTests {
         List<UserPosts> userPosts = userTimelineActions.getUserInfo();
         long actualReplyId = userPosts.get(0).getIn_reply_to_status_id();
 
-        assertThat("id's are differed", idOfFirstPost, equalTo(actualReplyId));
+        assertThat("ID's are differed", idOfFirstPost, equalTo(actualReplyId));
     }
 
     @Test
     public void checkPlaceWithCoordinates() throws IOException {
         statusUpdateActions.postStatus("test3", 37.7821120598956, -122.400612831116);
-        List<UserPosts> userPostsq = userTimelineActions.getUserInfo();
-        String actualCountry = userPostsq.get(0).getPlace().getCountry();
+        List<UserPosts> userPosts = userTimelineActions.getUserInfo();
+        String actualCountry = userPosts.get(0).getPlace().getCountry();
         assertThat("Country is wrong", actualCountry, equalTo("United States"));
 
-        String actualCityName = userPostsq.get(0).getPlace().getFull_name();
+        String actualCityName = userPosts.get(0).getPlace().getFull_name();
         assertThat("Name of city is wrong", actualCityName, equalTo("San Francisco, CA"));
 
-        String actualCountryCode = userPostsq.get(0).getPlace().getCountry_code();
+        String actualCountryCode = userPosts.get(0).getPlace().getCountry_code();
         assertThat("Country code is wrong", actualCountryCode, equalTo("US"));
     }
 }

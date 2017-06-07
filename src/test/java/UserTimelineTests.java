@@ -19,7 +19,6 @@ public class UserTimelineTests {
     public void checkNumberOfPosts() throws IOException {
         List<UserPosts> userPosts = userTimelineActions.getUserInfo();
         int numberOfPosts = userPosts.size();
-//        TODO: check hamcrest custom matchers
         assertThat("Number of posts is not 20", numberOfPosts, equalTo(20));
     }
 }
