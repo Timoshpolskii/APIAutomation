@@ -3,6 +3,7 @@ package main.java.Response.StatusUpdate;
 public class NewPost {
 
     private String lang;
+
     private long id;
 
 //    TODO: add serialized names to objects

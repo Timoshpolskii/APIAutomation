@@ -1,12 +1,19 @@
 package main.java.Response.UserTimeline;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Place {
-    private String full_name;
-    private String country_code;
+
+    @SerializedName("full_name")
+    private String fullName;
+
+    @SerializedName("country_code")
+    private String countryCode;
+
     private String country;
 
     public String getCountry_code() {
-        return country_code;
+        return countryCode;
     }
 
     public String getCountry() {
@@ -14,6 +21,6 @@ public class Place {
     }
 
     public String getFull_name() {
-        return full_name;
+        return fullName;
     }
 }

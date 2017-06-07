@@ -1,9 +1,14 @@
 package main.java.Response.UserTimeline;
 
+import com.google.gson.annotations.SerializedName;
+
 public class UserPosts {
 
     private String text;
-    private long in_reply_to_status_id;
+
+    @SerializedName("in_reply_to_status_id")
+    private long inReplyToStatusId;
+
     private Place place;
 
     public Place getPlace() {
@@ -11,7 +16,7 @@ public class UserPosts {
     }
 
     public long getIn_reply_to_status_id() {
-        return in_reply_to_status_id;
+        return inReplyToStatusId;
     }
 
     public String getText() {
