@@ -15,7 +15,7 @@ public class UserTimelineActions {
         Call<List<UserPosts>> call = getApiRequests().getTimeline();
         List<UserPosts> body = null;
         try {
-            body = call.clone().execute().body();
+            body = call.execute().body();
         }
         catch (NullPointerException exception){
             System.out.println("Cannot get response body");

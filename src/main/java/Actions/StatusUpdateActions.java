@@ -17,7 +17,7 @@ public class StatusUpdateActions {
 
         NewPost body = null;
         try {
-            body = call.clone().execute().body();
+            body = call.execute().body();
         }
         catch (NullPointerException exception){
             System.out.println("Cannot get response body");
@@ -31,7 +31,7 @@ public class StatusUpdateActions {
 
         NewPost body = null;
         try {
-            body = call.clone().execute().body();
+            body = call.execute().body();
         } catch (NullPointerException exception) {
             System.out.println("Cannot get response body");
             exception.printStackTrace();
@@ -44,7 +44,7 @@ public class StatusUpdateActions {
 
         NewPost body = null;
         try {
-            body = call.clone().execute().body();
+            body = call.execute().body();
         } catch (NullPointerException exception) {
             System.out.println("Cannot get response body");
             exception.printStackTrace();
