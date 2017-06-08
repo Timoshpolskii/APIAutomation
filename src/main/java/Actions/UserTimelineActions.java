@@ -10,7 +10,7 @@ import static main.java.Support.SingletonApiRequests.getApiRequests;
 
 public class UserTimelineActions {
 
-    public List<UserPosts> getUserInfo() throws IOException {
+    public List<UserPosts> getUserPosts() throws IOException {
 
         Call<List<UserPosts>> call = getApiRequests().getTimeline();
         List<UserPosts> body = null;

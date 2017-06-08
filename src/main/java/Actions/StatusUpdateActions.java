@@ -10,9 +10,10 @@ import static main.java.Support.SingletonApiRequests.getApiRequests;
 public class StatusUpdateActions {
 
     //    TODO: maybe now we can user generics? push to git before try to do this
+//    TODO: try to execute without .clone
 
-    public NewPost postStatus(String status) throws IOException {
-        Call<NewPost> call = getApiRequests().createNewTweet(status);
+    public NewPost createNewTweet(String tweet) throws IOException {
+        Call<NewPost> call = getApiRequests().createNewTweet(tweet);
 
         NewPost body = null;
         try {
@@ -25,8 +26,8 @@ public class StatusUpdateActions {
         return body;
     }
 
-    public  NewPost postStatus(String status, long id) throws IOException {
-        Call<NewPost> call = getApiRequests().replyToTweet(status, id);
+    public  NewPost replyToTweet(String tweet, long replyID) throws IOException {
+        Call<NewPost> call = getApiRequests().replyToTweet(tweet, replyID);
 
         NewPost body = null;
         try {
@@ -38,8 +39,8 @@ public class StatusUpdateActions {
         return body;
     }
 
-    public  NewPost postStatus(String status, double lat, double longitude) throws IOException {
-        Call<NewPost> call = getApiRequests().createTweetWithLocation(status, lat, longitude);
+    public  NewPost createTweetWithLocation(String tweet, double latitude, double longitude) throws IOException {
+        Call<NewPost> call = getApiRequests().createTweetWithLocation(tweet, latitude, longitude);
 
         NewPost body = null;
         try {

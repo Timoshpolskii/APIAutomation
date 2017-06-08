@@ -15,57 +15,57 @@ public class StatusUpdateTests {
     StatusUpdateActions statusUpdateActions = new StatusUpdateActions();
     UserTimelineActions userTimelineActions = new UserTimelineActions();
 
-//    TODO: check naming across project
-
     @Test
     public void checkRussianLanguage() throws IOException {
-        NewPost newPost = statusUpdateActions.postStatus("здорова");
+        NewPost newPost = statusUpdateActions.createNewTweet("привет");
         String currentLanguage = newPost.getLang();
         assertThat("Language is not Russian", currentLanguage, equalTo("ru"));
     }
 
     @Test
     public void checkEnglishLanguage() throws IOException {
-        NewPost newPost = statusUpdateActions.postStatus("hello");
+        NewPost newPost = statusUpdateActions.createNewTweet("hello");
         String currentLanguage = newPost.getLang();
         assertThat("Language is not English", currentLanguage, equalTo("en"));
     }
 
     @Test
     public void checkTextOfNewPost() throws IOException {
-        String textFromRequest = "some text";
+        String text = "some text";
 
-        statusUpdateActions.postStatus(textFromRequest);
-        List<UserPosts> userPosts = userTimelineActions.getUserInfo();
+        statusUpdateActions.createNewTweet(text);
+        List<UserPosts> userPosts = userTimelineActions.getUserPosts();
 
         String textFromResponse = userPosts.get(0).getText();
-        assertThat("Text from response differs from request.", textFromResponse, equalTo(textFromResponse));
+        assertThat("Text from response differs from request.", textFromResponse, equalTo(text));
     }
 
     @Test
     public void checkIDsAfterReply() throws IOException {
-        NewPost firstPost = statusUpdateActions.postStatus("test1");
+        NewPost firstPost = statusUpdateActions.createNewTweet("test1");
         long idOfFirstPost = firstPost.getId();
 
-        statusUpdateActions.postStatus("test2", idOfFirstPost);
+        statusUpdateActions.replyToTweet("test2", idOfFirstPost);
 
-        List<UserPosts> userPosts = userTimelineActions.getUserInfo();
-        long actualReplyId = userPosts.get(0).getIn_reply_to_status_id();
+        List<UserPosts> userPosts = userTimelineActions.getUserPosts();
+        long actualReplyId = userPosts.get(0).getInReplyToStatusId();
 
         assertThat("ID's are differed", idOfFirstPost, equalTo(actualReplyId));
     }
 
+
+//    TODO: add try/catch so tests will not fail
     @Test
     public void checkPlaceWithCoordinates() throws IOException {
-        statusUpdateActions.postStatus("test3", 37.7821120598956, -122.400612831116);
-        List<UserPosts> userPosts = userTimelineActions.getUserInfo();
+        statusUpdateActions.createTweetWithLocation("test3", 37.7821120598956, -122.400612831116);
+        List<UserPosts> userPosts = userTimelineActions.getUserPosts();
         String actualCountry = userPosts.get(0).getPlace().getCountry();
         assertThat("Country is wrong", actualCountry, equalTo("United States"));
 
-        String actualCityName = userPosts.get(0).getPlace().getFull_name();
+        String actualCityName = userPosts.get(0).getPlace().getFullName();
         assertThat("Name of city is wrong", actualCityName, equalTo("San Francisco, CA"));
 
-        String actualCountryCode = userPosts.get(0).getPlace().getCountry_code();
+        String actualCountryCode = userPosts.get(0).getPlace().getCountryCode();
         assertThat("Country code is wrong", actualCountryCode, equalTo("US"));
     }
 }

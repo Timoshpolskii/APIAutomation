@@ -12,7 +12,7 @@ public class Place {
 
     private String country;
 
-    public String getCountry_code() {
+    public String getCountryCode() {
         return countryCode;
     }
 
@@ -20,7 +20,7 @@ public class Place {
         return country;
     }
 
-    public String getFull_name() {
+    public String getFullName() {
         return fullName;
     }
 }

@@ -17,7 +17,7 @@ public class UserTimelineTests {
 
     @Test
     public void checkNumberOfPosts() throws IOException {
-        List<UserPosts> userPosts = userTimelineActions.getUserInfo();
+        List<UserPosts> userPosts = userTimelineActions.getUserPosts();
         int numberOfPosts = userPosts.size();
         assertThat("Number of posts is not 20", numberOfPosts, equalTo(20));
     }

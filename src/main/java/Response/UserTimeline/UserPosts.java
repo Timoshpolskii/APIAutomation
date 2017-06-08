@@ -15,7 +15,7 @@ public class UserPosts {
         return place;
     }
 
-    public long getIn_reply_to_status_id() {
+    public long getInReplyToStatusId() {
         return inReplyToStatusId;
     }
 
