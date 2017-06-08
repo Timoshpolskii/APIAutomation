@@ -53,8 +53,6 @@ public class StatusUpdateTests {
         assertThat("ID's are differed", idOfFirstPost, equalTo(actualReplyId));
     }
 
-
-//    TODO: add try/catch so tests will not fail
     @Test
     public void checkPlaceWithCoordinates() throws IOException {
         statusUpdateActions.createTweetWithLocation("test3", 37.7821120598956, -122.400612831116);
@@ -67,5 +65,6 @@ public class StatusUpdateTests {
 
         String actualCountryCode = userPosts.get(0).getPlace().getCountryCode();
         assertThat("Country code is wrong", actualCountryCode, equalTo("US"));
+
     }
 }

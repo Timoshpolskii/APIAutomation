@@ -10,7 +10,6 @@ import static main.java.Support.SingletonApiRequests.getApiRequests;
 public class StatusUpdateActions {
 
     //    TODO: maybe now we can user generics? push to git before try to do this
-//    TODO: try to execute without .clone
 
     public NewPost createNewTweet(String tweet) throws IOException {
         Call<NewPost> call = getApiRequests().createNewTweet(tweet);
