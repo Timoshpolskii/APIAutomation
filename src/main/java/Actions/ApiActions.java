@@ -24,5 +24,4 @@ public class ApiActions<T> {
         System.out.println(headers);
         System.out.println(url);
     }
-//    hello
 }
