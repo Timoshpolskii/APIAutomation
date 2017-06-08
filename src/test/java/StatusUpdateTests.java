@@ -1,10 +1,12 @@
 package test.java;
 
-import main.java.Actions.StatusUpdateActions;
-import main.java.Actions.UserTimelineActions;
+import main.java.Actions.ApiActions;
 import main.java.Response.StatusUpdate.NewPost;
 import main.java.Response.UserTimeline.UserPosts;
 import org.testng.annotations.Test;
+import retrofit2.Call;
+
+import static main.java.Support.SingletonApiRequests.getApiRequests;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
@@ -12,19 +14,21 @@ import java.io.IOException;
 import java.util.List;
 
 public class StatusUpdateTests {
-    StatusUpdateActions statusUpdateActions = new StatusUpdateActions();
-    UserTimelineActions userTimelineActions = new UserTimelineActions();
+    ApiActions apiActions = new ApiActions();
+
 
     @Test
     public void checkRussianLanguage() throws IOException {
-        NewPost newPost = statusUpdateActions.createNewTweet("привет");
+        Call<NewPost> newPostCall = getApiRequests().createNewTweet("привет");
+        NewPost newPost = (NewPost) apiActions.execute(newPostCall);
         String currentLanguage = newPost.getLang();
         assertThat("Language is not Russian", currentLanguage, equalTo("ru"));
     }
 
     @Test
     public void checkEnglishLanguage() throws IOException {
-        NewPost newPost = statusUpdateActions.createNewTweet("hello");
+        Call<NewPost> newPostCall = getApiRequests().createNewTweet("hello");
+        NewPost newPost = (NewPost) apiActions.execute(newPostCall);
         String currentLanguage = newPost.getLang();
         assertThat("Language is not English", currentLanguage, equalTo("en"));
     }
@@ -33,8 +37,11 @@ public class StatusUpdateTests {
     public void checkTextOfNewPost() throws IOException {
         String text = "some text";
 
-        statusUpdateActions.createNewTweet(text);
-        List<UserPosts> userPosts = userTimelineActions.getUserPosts();
+        Call<NewPost> newPostCall = getApiRequests().createNewTweet(text);
+        apiActions.execute(newPostCall);
+
+        Call<List<UserPosts>> userPostsCall = getApiRequests().getUserPosts();
+        List<UserPosts> userPosts = (List<UserPosts>) apiActions.execute(userPostsCall);
 
         String textFromResponse = userPosts.get(0).getText();
         assertThat("Text from response differs from request.", textFromResponse, equalTo(text));
@@ -42,12 +49,16 @@ public class StatusUpdateTests {
 
     @Test
     public void checkIDsAfterReply() throws IOException {
-        NewPost firstPost = statusUpdateActions.createNewTweet("test1");
+        Call<NewPost> newPostCall = getApiRequests().createNewTweet("test1");
+        NewPost firstPost = (NewPost) apiActions.execute(newPostCall);
         long idOfFirstPost = firstPost.getId();
 
-        statusUpdateActions.replyToTweet("test2", idOfFirstPost);
+        Call<NewPost> replyToPost = getApiRequests().replyToTweet("test2", idOfFirstPost);
+        apiActions.execute(replyToPost);
 
-        List<UserPosts> userPosts = userTimelineActions.getUserPosts();
+        Call<List<UserPosts>> userPostsCall = getApiRequests().getUserPosts();
+        List<UserPosts> userPosts = (List<UserPosts>) apiActions.execute(userPostsCall);
+
         long actualReplyId = userPosts.get(0).getInReplyToStatusId();
 
         assertThat("ID's are differed", idOfFirstPost, equalTo(actualReplyId));
@@ -55,8 +66,12 @@ public class StatusUpdateTests {
 
     @Test
     public void checkPlaceWithCoordinates() throws IOException {
-        statusUpdateActions.createTweetWithLocation("test3", 37.7821120598956, -122.400612831116);
-        List<UserPosts> userPosts = userTimelineActions.getUserPosts();
+        Call<NewPost> newPostCall = getApiRequests().createTweetWithLocation("test3", 37.7821120598956, -122.400612831116);
+        apiActions.execute(newPostCall);
+
+        Call<List<UserPosts>> userPostsCall = getApiRequests().getUserPosts();
+        List<UserPosts> userPosts = (List<UserPosts>) apiActions.execute(userPostsCall);
+
         String actualCountry = userPosts.get(0).getPlace().getCountry();
         assertThat("Country is wrong", actualCountry, equalTo("United States"));
 

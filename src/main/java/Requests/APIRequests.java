@@ -29,5 +29,5 @@ public interface APIRequests {
 
     @Headers("screen_name: @andrewtechery")
     @GET("1.1/statuses/user_timeline.json")
-    Call<List<UserPosts>> getTimeline();
+    Call<List<UserPosts>> getUserPosts();
 }
