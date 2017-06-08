@@ -16,4 +16,12 @@ public class ApiActions<T> {
         }
         return body;
     }
+
+    public void getRequestParameters(Call<T> call) throws IOException {
+        String headers = call.request().headers().toString();
+        String url = call.request().url().toString();
+
+        System.out.println(headers);
+        System.out.println(url);
+    }
 }
