@@ -1,10 +1,9 @@
 package test.java;
 
 import main.java.Actions.ApiActions;
-import main.java.Response.StatusUpdate.NewPost;
-import main.java.Response.UserTimeline.UserPosts;
+import main.java.Response.StatusUpdate.NewTweet;
+import main.java.Response.UserTimeline.UserTweets;
 import org.testng.annotations.Test;
-import retrofit2.Call;
 
 import static main.java.Support.SingletonApiRequests.getApiRequests;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -16,69 +15,65 @@ import java.util.List;
 public class StatusUpdateTests {
     ApiActions apiActions = new ApiActions();
 
-
     @Test
     public void checkRussianLanguage() throws IOException {
-        Call<NewPost> newPostCall = getApiRequests().createNewTweet("привет");
-        NewPost newPost = (NewPost) apiActions.execute(newPostCall);
-        String currentLanguage = newPost.getLang();
+
+        NewTweet newTweet = (NewTweet) apiActions.execute(getApiRequests().createNewTweet("привет"));
+
+        String currentLanguage = newTweet.getLang();
         assertThat("Language is not Russian", currentLanguage, equalTo("ru"));
     }
 
     @Test
     public void checkEnglishLanguage() throws IOException {
-        Call<NewPost> newPostCall = getApiRequests().createNewTweet("hello");
-        NewPost newPost = (NewPost) apiActions.execute(newPostCall);
-        String currentLanguage = newPost.getLang();
+
+        NewTweet newTweet = (NewTweet) apiActions.execute(getApiRequests().createNewTweet("hello"));
+
+        String currentLanguage = newTweet.getLang();
         assertThat("Language is not English", currentLanguage, equalTo("en"));
     }
 
     @Test
     public void checkTextOfNewPost() throws IOException {
+
         String text = "some text";
+        apiActions.execute(getApiRequests().createNewTweet(text));
 
-        Call<NewPost> newPostCall = getApiRequests().createNewTweet(text);
-        apiActions.execute(newPostCall);
+        List<UserTweets> userTweets = (List<UserTweets>) apiActions.execute(getApiRequests().getUserTweets());
 
-        Call<List<UserPosts>> userPostsCall = getApiRequests().getUserPosts();
-        List<UserPosts> userPosts = (List<UserPosts>) apiActions.execute(userPostsCall);
-
-        String textFromResponse = userPosts.get(0).getText();
+        String textFromResponse = userTweets.get(0).getText();
         assertThat("Text from response differs from request.", textFromResponse, equalTo(text));
     }
 
     @Test
     public void checkIDsAfterReply() throws IOException {
-        Call<NewPost> newPostCall = getApiRequests().createNewTweet("test1");
-        NewPost firstPost = (NewPost) apiActions.execute(newPostCall);
-        long idOfFirstPost = firstPost.getId();
 
-        Call<NewPost> replyToPost = getApiRequests().replyToTweet("test2", idOfFirstPost);
-        apiActions.execute(replyToPost);
+        NewTweet firstTweet = (NewTweet) apiActions.execute(getApiRequests().createNewTweet("test1"));
+        long idOfFirstTweet = firstTweet.getId();
 
-        Call<List<UserPosts>> userPostsCall = getApiRequests().getUserPosts();
-        List<UserPosts> userPosts = (List<UserPosts>) apiActions.execute(userPostsCall);
+        apiActions.execute(getApiRequests().replyToTweet("test2", idOfFirstTweet));
 
-        long actualReplyId = userPosts.get(0).getInReplyToStatusId();
+        List<UserTweets> userTweets = (List<UserTweets>) apiActions.execute(getApiRequests().getUserTweets());
 
-        assertThat("ID's are differed", idOfFirstPost, equalTo(actualReplyId));
+        long actualReplyId = userTweets.get(0).getInReplyToStatusId();
+
+        assertThat("ID's are differed", idOfFirstTweet, equalTo(actualReplyId));
     }
 
     @Test
     public void checkPlaceWithCoordinates() throws IOException {
-        Call<NewPost> newPostCall = getApiRequests().createTweetWithLocation("test3", 37.7821120598956, -122.400612831116);
-        apiActions.execute(newPostCall);
 
-        Call<List<UserPosts>> userPostsCall = getApiRequests().getUserPosts();
-        List<UserPosts> userPosts = (List<UserPosts>) apiActions.execute(userPostsCall);
+        apiActions.execute(getApiRequests().createTweetWithLocation("test3", 37.821, -122.400));
 
-        String actualCountry = userPosts.get(0).getPlace().getCountry();
+        List<UserTweets> userTweets = (List<UserTweets>) apiActions.execute(getApiRequests().getUserTweets());
+
+        String actualCountry = userTweets.get(0).getPlace().getCountry();
         assertThat("Country is wrong", actualCountry, equalTo("United States"));
 
-        String actualCityName = userPosts.get(0).getPlace().getFullName();
-        assertThat("Name of city is wrong", actualCityName, equalTo("San Francisco, CA"));
+        String actualCityName = userTweets.get(0).getPlace().getFullName();
+        assertThat("Name of city is wrong", actualCityName, equalTo("California, USA"));
 
-        String actualCountryCode = userPosts.get(0).getPlace().getCountryCode();
+        String actualCountryCode = userTweets.get(0).getPlace().getCountryCode();
         assertThat("Country code is wrong", actualCountryCode, equalTo("US"));
 
     }

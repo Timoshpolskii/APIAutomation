@@ -2,7 +2,7 @@ package main.java.Response.UserTimeline;
 
 import com.google.gson.annotations.SerializedName;
 
-public class UserPosts {
+public class UserTweets {
 
     private String text;
 

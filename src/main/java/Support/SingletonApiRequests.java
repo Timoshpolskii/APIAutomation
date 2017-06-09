@@ -1,6 +1,6 @@
 package main.java.Support;
 
-import main.java.Requests.APIRequests;
+import main.java.Requests.ApiRequests;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -14,7 +14,7 @@ public class SingletonApiRequests {
     private SingletonApiRequests() {
     }
 
-    public static synchronized APIRequests getApiRequests() {
+    public static synchronized ApiRequests getApiRequests() {
 
         if (retrofit == null) {
 
@@ -33,6 +33,6 @@ public class SingletonApiRequests {
                     .client(client)
                     .build();
         }
-        return retrofit.create(APIRequests.class);
+        return retrofit.create(ApiRequests.class);
     }
 }

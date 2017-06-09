@@ -1,6 +1,6 @@
 package main.java.Response.StatusUpdate;
 
-public class NewPost {
+public class NewTweet {
 
     private String lang;
 
